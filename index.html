@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,7 +8,6 @@
     <!-- PWA Manifest Link -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#242424">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/192">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -199,6 +198,45 @@
             margin-bottom: 4px;
         }
 
+        /* Floating Game Back Button */
+        .game-back-btn {
+            position: fixed;
+            top: 12px;
+            left: 12px;
+            z-index: 1001;
+            width: 44px;
+            height: 44px;
+            background-color: var(--mc-green);
+            border-bottom: 4px solid #1d4d12;
+            display: none; /* Only visible when game is launched */
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .game-back-btn:hover {
+            background-color: var(--mc-green-hover);
+        }
+
+        .game-back-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 0px;
+        }
+
+        .game-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 1000;
+            display: none;
+            border: none;
+        }
+
         .footer-text {
             margin-top: 4rem;
             color: #444;
@@ -313,6 +351,16 @@
     </style>
 </head>
 <body>
+
+    <!-- Game Back Button (Green Arrow) -->
+    <div id="game-back" class="game-back-btn" title="Back to Launcher" onclick="exitGame()">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+    </div>
+
+    <!-- Iframe for game execution -->
+    <iframe id="game-frame" class="game-container"></iframe>
 
     <!-- Support Modal -->
     <div id="support-modal" class="overlay" onclick="closeSupport()">
@@ -472,11 +520,10 @@
          */
         function toggleAbout(show) {
             const aboutPage = document.getElementById('about-page');
-            const mainContent = document.getElementById('main-content');
             
             if (show) {
                 aboutPage.style.display = 'block';
-                document.body.style.overflow = 'hidden'; // Prevent scrolling background
+                document.body.style.overflow = 'hidden'; 
                 window.scrollTo(0, 0);
             } else {
                 aboutPage.style.display = 'none';
@@ -499,7 +546,17 @@
          * Navigation and Fullscreen Logic
          */
         function launchGame(url) {
+            const iframe = document.getElementById('game-frame');
+            const backBtn = document.getElementById('game-back');
             const docElm = document.documentElement;
+
+            // Show UI elements
+            iframe.src = url;
+            iframe.style.display = 'block';
+            backBtn.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+
+            // Request Fullscreen
             const requestFullscreen = docElm.requestFullscreen || 
                                     docElm.mozRequestFullScreen || 
                                     docElm.webkitRequestFullScreen || 
@@ -510,10 +567,22 @@
                     console.warn(`Fullscreen denied: ${err.message}`);
                 });
             }
+        }
 
-            setTimeout(() => {
-                window.location.href = url;
-            }, 250);
+        function exitGame() {
+            const iframe = document.getElementById('game-frame');
+            const backBtn = document.getElementById('game-back');
+
+            // Hide UI elements
+            iframe.src = '';
+            iframe.style.display = 'none';
+            backBtn.style.display = 'none';
+            document.body.style.overflow = 'auto';
+
+            // Exit Fullscreen if active
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            }
         }
 
         document.getElementById('btn-js').addEventListener('click', () => {
@@ -522,6 +591,14 @@
 
         document.getElementById('btn-wasm').addEventListener('click', () => {
             launchGame('gamefilebetter.html');
+        });
+
+        // Listen for Escape key to cleanup UI if user exits fullscreen manually
+        document.addEventListener('fullscreenchange', () => {
+            if (!document.fullscreenElement && document.getElementById('game-frame').style.display === 'block') {
+                // Keep the frame but ensure the back button is visible
+                // Some users might want to stay in windowed mode
+            }
         });
     </script>
 </body>
