@@ -2,7 +2,7 @@
 "name": "Nexus Launcher",
 "short_name": "NEXLauncher",
 "description": "A high-performance fan game launcher for Minecraft clones.",
-"start_url": "launcher.html",
+"start_url": "index.html",
 "display": "standalone",
 "background_color": "#121212",
 "theme_color": "#242424",
