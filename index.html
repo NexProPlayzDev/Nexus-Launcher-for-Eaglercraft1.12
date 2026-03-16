@@ -1,0 +1,528 @@
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEX Launcher</title>
+    
+    <!-- PWA Manifest Link -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#242424">
+    <link rel="apple-touch-icon" href="https://via.placeholder.com/192">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Orbitron:wght@400;700&display=swap');
+
+        :root {
+            --mc-dark: #242424;
+            --mc-green: #3c8527;
+            --mc-green-hover: #47a12e;
+            --mc-gray: #313131;
+            --neon-blue: #00d2ff;
+            --neon-green: #39ff14;
+            --mc-blue: #3264ff;
+            --mc-blue-hover: #4b7dff;
+            --navy-blue: #001f3f;
+        }
+
+        /* Smooth scrolling for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Minecraft-style Nav */
+        .nav-container {
+            background-color: var(--mc-dark);
+            border-bottom: 4px solid #1a1a1a;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        /* NEX Launcher Branding */
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nexus-text {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            animation: neonFlow 4s ease-in-out infinite;
+        }
+
+        @keyframes neonFlow {
+            0%, 100% {
+                color: var(--neon-blue);
+                text-shadow: 0 0 5px var(--neon-blue), 0 0 15px var(--neon-blue);
+            }
+            50% {
+                color: var(--neon-green);
+                text-shadow: 0 0 5px var(--neon-green), 0 0 15px var(--neon-green);
+            }
+        }
+
+        .logo-image {
+            height: 1.2rem;
+            width: auto;
+            vertical-align: middle;
+            margin: 0 4px;
+        }
+
+        .full-name {
+            display: flex;
+            align-items: center;
+            font-size: 0.85rem;
+            color: #888;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-left: 4px;
+        }
+
+        .version-tag {
+            font-size: 0.7rem;
+            color: #555;
+            background: #1a1a1a;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        /* Hero Area */
+        .hero-section {
+            max-width: 1000px;
+            margin: 4rem auto;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .preview-placeholder {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-placeholder::after {
+            content: 'preview.png';
+            color: #444;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+            scroll-margin-top: 100px; /* Offset for sticky nav */
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .mc-btn {
+            background-color: var(--mc-green);
+            color: white;
+            padding: 12px 48px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 4px solid #1d4d12;
+            transition: all 0.1s ease;
+            min-width: 220px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mc-btn:hover {
+            background-color: var(--mc-green-hover);
+            transform: translateY(-2px);
+        }
+
+        .mc-btn.btn-download {
+            background-color: var(--mc-blue);
+            border-bottom: 4px solid #1a3bad;
+        }
+
+        .mc-btn.btn-tech {
+            background-color: var(--navy-blue);
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 10px rgba(0, 210, 255, 0.3);
+            text-shadow: 0 0 5px var(--neon-blue);
+            border-bottom: 4px solid #001021;
+        }
+
+        .mc-btn.btn-tech:hover {
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.6);
+            transform: scale(1.05);
+        }
+
+        .mc-btn:active {
+            transform: translateY(2px);
+            border-bottom-width: 0px;
+            margin-bottom: 4px;
+        }
+
+        .footer-text {
+            margin-top: 4rem;
+            color: #444;
+            font-size: 0.75rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.4;
+        }
+
+        /* Modal / Overlay Style */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--mc-dark);
+            padding: 2.5rem;
+            border: 2px solid #444;
+            border-radius: 12px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0,0,0,1);
+        }
+
+        /* About Page View */
+        #about-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            z-index: 200;
+            display: none;
+            overflow-y: auto;
+            padding: 4rem 1rem;
+        }
+
+        .about-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-header {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-blue);
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
+        }
+
+        .about-section {
+            background: #1a1a1a;
+            padding: 2rem;
+            border-radius: 8px;
+            border: 1px solid #333;
+            margin-bottom: 2rem;
+        }
+
+        .about-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--neon-green);
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--neon-green);
+            padding-left: 1rem;
+        }
+
+        .about-section p {
+            line-height: 1.7;
+            color: #ccc;
+            margin-bottom: 1rem;
+        }
+
+        .about-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .about-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #ddd;
+        }
+
+        .about-list li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: var(--neon-blue);
+        }
+
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 210;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Support Modal -->
+    <div id="support-modal" class="overlay" onclick="closeSupport()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2 class="text-2xl font-bold mb-4" style="font-family: 'Orbitron'; color: var(--neon-blue);">Support</h2>
+            <p class="mb-6 text-gray-300">For any issues or feedback, please reach out to our team at:</p>
+            <div class="bg-black p-4 rounded mb-6 select-all font-mono text-sm border border-gray-700">
+                nexcoresupport@gmail.com
+            </div>
+            <p class="text-sm text-gray-400 mb-8 italic">Please use the subject line: <br><strong>NEXLauncher bugs</strong></p>
+            <button onclick="closeSupport()" class="mc-btn min-w-[120px]">Close</button>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about-page">
+        <button onclick="toggleAbout(false)" class="mc-btn back-btn min-w-0 px-6 py-2">← Back</button>
+        <div class="about-container">
+            <h1 class="about-header">Nexus Launcher</h1>
+            
+            <div class="about-section">
+                <p>
+                    This site is a <strong>Progressive Web App (PWA)</strong> designed to launch and run <strong>Eaglercraft 1.12</strong> directly in your browser. The launcher allows you to choose between two runtime versions: the <strong>JavaScript (JS)</strong> build or the <strong>WebAssembly Garbage-Collected (WASM-GC)</strong> build, giving users flexibility depending on their browser and device performance.
+                </p>
+            </div>
+
+            <div class="about-section">
+                <h2>What the Launcher Does</h2>
+                <p>
+                    The PWA acts as a lightweight launcher for Eaglercraft 1.12. Instead of installing a traditional game client, the site loads the game directly in your browser and manages the runtime environment. With a single interface, you can:
+                </p>
+                <ul class="about-list">
+                    <li>Launch <strong>Eaglercraft 1.12</strong> instantly</li>
+                    <li>Switch between <strong>JS</strong> and <strong>WASM-GC</strong> engine builds</li>
+                    <li>Connect to multiplayer servers</li>
+                    <li>Run the game fullscreen like a native app</li>
+                </ul>
+            </div>
+
+            <div class="about-section">
+                <h2>What a PWA Is</h2>
+                <p>
+                    A <strong>Progressive Web App (PWA)</strong> is a website that behaves like a native application. When installed, it can run independently from the browser in its own window and provides features similar to desktop or mobile apps.
+                </p>
+                <ul class="about-list">
+                    <li><strong>Installable</strong> – Add it to your desktop or home screen without downloading a traditional program</li>
+                    <li><strong>Offline caching</strong> – Game assets and launcher files can be stored locally for faster startup</li>
+                    <li><strong>App-like interface</strong> – Runs without browser UI for a more immersive experience</li>
+                    <li><strong>Automatic updates</strong> – The launcher updates itself when new versions are available</li>
+                </ul>
+            </div>
+
+            <div class="about-section">
+                <h2>How the PWA Optimizes Gameplay</h2>
+                <p>Using PWA technology improves the Eaglercraft experience in several ways:</p>
+                
+                <h3 class="font-bold text-white mt-4 mb-2">1. Faster Loading</h3>
+                <p>Service workers cache essential game files locally, reducing loading times after the first launch.</p>
+                
+                <h3 class="font-bold text-white mt-4 mb-2">2. Reduced Network Overhead</h3>
+                <p>Assets such as textures, scripts, and UI components can be stored offline, meaning the launcher doesn't need to download everything each time.</p>
+                
+                <h3 class="font-bold text-white mt-4 mb-2">3. Native-like Performance</h3>
+                <p>Running as a standalone app eliminates browser UI overhead and allows the game to operate closer to a desktop application environment.</p>
+                
+                <h3 class="font-bold text-white mt-4 mb-2">4. Engine Choice for Performance</h3>
+                <ul class="about-list">
+                    <li><strong>JS Version:</strong> Maximum compatibility with older browsers and devices.</li>
+                    <li><strong>WASM-GC Version:</strong> Uses WebAssembly with garbage collection for improved performance and more efficient memory management on modern browsers.</li>
+                </ul>
+                
+                <h3 class="font-bold text-white mt-4 mb-2">5. Seamless Updates</h3>
+                <p>The PWA automatically updates cached files when new builds of Eaglercraft or the launcher become available, keeping gameplay smooth without manual downloads.</p>
+            </div>
+
+            <div class="about-section">
+                <h2>Summary</h2>
+                <p>
+                    The Eaglercraft 1.12 PWA Launcher provides a <strong>fast, installable, browser-based game client</strong> that combines the convenience of a website with the performance of a native application. By leveraging modern web technologies like service workers, caching, and WebAssembly, it delivers a smoother and more reliable way to play Eaglercraft directly from your browser.
+                </p>
+            </div>
+            
+            <div class="text-center mt-8">
+                <button onclick="toggleAbout(false)" class="mc-btn">Return to Launcher</button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-container">
+        <div class="logo-section">
+            <div class="flex items-center">
+                <span class="nexus-text">Nexus</span>
+                <span class="full-name hidden sm:flex">
+                    <img src="gamerz.png" alt="Gamerz" class="logo-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <span style="display:none;">EaglercraftX</span> 
+                    Launcher
+                </span>
+                <span class="version-tag">v1.12</span>
+            </div>
+        </div>
+        <div class="ml-auto flex gap-6 text-xs font-bold uppercase tracking-wider text-gray-400">
+            <a href="javascript:void(0)" onclick="toggleAbout(true)" class="hover:text-white transition">About</a>
+            <a href="#offline-downloads-section" class="hover:text-white transition">Downloads</a>
+            <a href="#more-projects-section" class="hover:text-white transition">More Projects</a>
+            <a href="javascript:void(0)" onclick="openSupport()" class="hover:text-white transition">Support</a>
+        </div>
+    </nav>
+
+    <main id="main-content" class="hero-section">
+        <div class="preview-placeholder">
+            <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(#fff 1px, transparent 1px); background-size: 20px 20px;"></div>
+        </div>
+
+        <div class="section-title">Launch Client</div>
+        <div class="btn-group">
+            <button id="btn-js" class="mc-btn">Play JS Edition</button>
+            <button id="btn-wasm" class="mc-btn">Play WASM-GC</button>
+        </div>
+
+        <div id="offline-downloads-section" class="section-title">Offline Downloads</div>
+        <div class="btn-group">
+            <a href="gamefile.html" download="Nexus_JS_Edition.html" class="mc-btn btn-download flex items-center justify-center">
+                Download JS
+            </a>
+            <a href="gamefilebetter.html" download="Nexus_WASM_GC.html" class="mc-btn btn-download flex items-center justify-center">
+                Download WASM
+            </a>
+        </div>
+
+        <div id="more-projects-section" class="section-title">More Projects</div>
+        <div class="btn-group">
+            <a href="https://aegis-nex-core.vercel.app" target="_blank" class="mc-btn btn-tech flex items-center justify-center">
+                Aegis NexCore AI
+            </a>
+        </div>
+
+        <p class="footer-text">
+            NEX Launcher is a community-driven project. <br>
+            Not an official Minecraft product. Not approved by or associated with Mojang or Microsoft.
+        </p>
+    </main>
+
+    <script>
+        /**
+         * Support Modal Logic
+         */
+        function openSupport() {
+            document.getElementById('support-modal').style.display = 'flex';
+        }
+
+        function closeSupport() {
+            document.getElementById('support-modal').style.display = 'none';
+        }
+
+        /**
+         * About Page Visibility Logic
+         */
+        function toggleAbout(show) {
+            const aboutPage = document.getElementById('about-page');
+            const mainContent = document.getElementById('main-content');
+            
+            if (show) {
+                aboutPage.style.display = 'block';
+                document.body.style.overflow = 'hidden'; // Prevent scrolling background
+                window.scrollTo(0, 0);
+            } else {
+                aboutPage.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        /**
+         * Service Worker Registration
+         */
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(reg => console.log('NEX Service Worker Active'))
+                    .catch(err => console.log('SW Registration failed (normal for preview environment):', err));
+            });
+        }
+
+        /**
+         * Navigation and Fullscreen Logic
+         */
+        function launchGame(url) {
+            const docElm = document.documentElement;
+            const requestFullscreen = docElm.requestFullscreen || 
+                                    docElm.mozRequestFullScreen || 
+                                    docElm.webkitRequestFullScreen || 
+                                    docElm.msRequestFullscreen;
+
+            if (requestFullscreen) {
+                requestFullscreen.call(docElm).catch(err => {
+                    console.warn(`Fullscreen denied: ${err.message}`);
+                });
+            }
+
+            setTimeout(() => {
+                window.location.href = url;
+            }, 250);
+        }
+
+        document.getElementById('btn-js').addEventListener('click', () => {
+            launchGame('gamefile.html');
+        });
+
+        document.getElementById('btn-wasm').addEventListener('click', () => {
+            launchGame('gamefilebetter.html');
+        });
+    </script>
+</body>
+</html>
