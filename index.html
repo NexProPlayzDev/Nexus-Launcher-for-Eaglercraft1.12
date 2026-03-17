@@ -547,12 +547,21 @@
             }
         }
 
+        /**
+         * Mobile Detection Helper
+         */
+        function isMobile() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
+
         document.getElementById('btn-js').addEventListener('click', () => {
-            launchGame('gamefile.html');
+            const targetUrl = isMobile() ? 'https://eaglercraftx.pages.dev' : 'gamefile.html';
+            launchGame(targetUrl);
         });
 
         document.getElementById('btn-wasm').addEventListener('click', () => {
-            launchGame('gamefilebetter.html');
+            const targetUrl = isMobile() ? 'https://x.mess.eu.org/ninja-wasm/' : 'gamefilebetter.html';
+            launchGame(targetUrl);
         });
 
         // Listen for Escape key to cleanup UI if user exits fullscreen manually
