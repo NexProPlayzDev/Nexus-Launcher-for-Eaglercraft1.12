@@ -198,33 +198,6 @@
             margin-bottom: 4px;
         }
 
-        /* Floating Game Back Button */
-        .game-back-btn {
-            position: fixed;
-            top: 12px;
-            left: 12px;
-            z-index: 1001;
-            width: 44px;
-            height: 44px;
-            background-color: var(--mc-green);
-            border-bottom: 4px solid #1d4d12;
-            display: none; /* Only visible when game is launched */
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.1s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-
-        .game-back-btn:hover {
-            background-color: var(--mc-green-hover);
-        }
-
-        .game-back-btn:active {
-            transform: translateY(2px);
-            border-bottom-width: 0px;
-        }
-
         .game-container {
             position: fixed;
             top: 0;
@@ -351,13 +324,6 @@
     </style>
 </head>
 <body>
-
-    <!-- Game Back Button (Green Arrow) -->
-    <div id="game-back" class="game-back-btn" title="Back to Launcher" onclick="exitGame()">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M19 12H5M12 19l-7-7 7-7"/>
-        </svg>
-    </div>
 
     <!-- Iframe for game execution -->
     <iframe id="game-frame" class="game-container"></iframe>
@@ -547,13 +513,11 @@
          */
         function launchGame(url) {
             const iframe = document.getElementById('game-frame');
-            const backBtn = document.getElementById('game-back');
             const docElm = document.documentElement;
 
             // Show UI elements
             iframe.src = url;
             iframe.style.display = 'block';
-            backBtn.style.display = 'flex';
             document.body.style.overflow = 'hidden';
 
             // Request Fullscreen
@@ -571,12 +535,10 @@
 
         function exitGame() {
             const iframe = document.getElementById('game-frame');
-            const backBtn = document.getElementById('game-back');
 
             // Hide UI elements
             iframe.src = '';
             iframe.style.display = 'none';
-            backBtn.style.display = 'none';
             document.body.style.overflow = 'auto';
 
             // Exit Fullscreen if active
@@ -596,8 +558,8 @@
         // Listen for Escape key to cleanup UI if user exits fullscreen manually
         document.addEventListener('fullscreenchange', () => {
             if (!document.fullscreenElement && document.getElementById('game-frame').style.display === 'block') {
-                // Keep the frame but ensure the back button is visible
-                // Some users might want to stay in windowed mode
+                // Return to launcher UI if they leave fullscreen
+                exitGame();
             }
         });
     </script>
